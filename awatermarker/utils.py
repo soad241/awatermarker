@@ -138,7 +138,7 @@ def generate_watermabrks(image_name):
         mark = mark.resize(scale)
         if greyscale and mark.mode != 'LA':
             mark = mark.convert('LA')
-      layer = Image.new('RGBA', img.size, (0,0,0,0))
+        layer = Image.new('RGBA', img.size, (0,0,0,0))
         if tile:
             first_y = position[1] % mark.size[1] - mark.size[1]
             first_x = position[0] % mark.size[0] - mark.size[0]
