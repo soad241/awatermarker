@@ -95,9 +95,8 @@ def reduce_opacity(img, opacity):
     img.putalpha(alpha)
     return img
 
-def generate_watermabrks(image_name):
+def generate_watermarks(image_name, storage):
     """ Generates all watermarks for the given image """
-    storage = get_upload_storage()
     img = Image.open(storage.open(image_name))
     for mark_name in settings.ALL_WATERMARK_LIST:
         mark = Image.open(settings.MEDIA_ROOT+mark_name[0])
