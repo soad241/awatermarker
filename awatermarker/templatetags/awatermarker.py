@@ -4,6 +4,8 @@ register = template.Library()
 
 @register.simple_tag
 def watermark(url):
+    if not settings.SITE_ID == 1:
+        return url
     image_url = url.split("?")[0]
     params = url.split("?")[1]
     return "{0}.{1}?{2}".format(image_url,
