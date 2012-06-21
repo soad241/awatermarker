@@ -14,7 +14,6 @@ def watermark(url):
     filename = "{0}.{1}".format(image_url, settings.DEFAULT_WATERMARK_SLUG)
     if not filename.startswith(settings.S3_BUCKET_URL):
         return filename
-
     cache_key = "watermark-%s" % filename
     cache_key = cache_key.strip()
     cached_val = cache.get(cache_key)
@@ -24,5 +23,4 @@ def watermark(url):
     new_url = storage.url(filename.replace(settings.S3_BUCKET_URL, ""))
     cache.set(cache_key, new_url, settings.WATERMARK_URL_CACHE_TIME)
     return new_url
-
 
