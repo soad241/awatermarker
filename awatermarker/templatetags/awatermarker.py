@@ -1,8 +1,11 @@
 from django import template
 from django.conf import settings
-register = template.Library()
 from storages.backends.s3boto import S3BotoStorage
 from photo_videos.storage import get_upload_storage
+from django.utils.safestring import mark_safe
+
+register = template.Library()
+
 @register.simple_tag
 def watermark(url):
     if not settings.SITE_ID == 1:
@@ -15,8 +18,8 @@ def watermark(url):
     filename = filename.replace(settings.S3_BUCKET_URL, "")
     if st.get_storage(filename) == st.remote:
         storage = S3BotoStorage()
-        return storage.url(filename)
-    return settings.UPLOAD_MEDIA_URL + filename
+        return mark_safe(storage.url(filename))
+    return mark_safe(settings.UPLOAD_MEDIA_URL + filename)
 
 
 
