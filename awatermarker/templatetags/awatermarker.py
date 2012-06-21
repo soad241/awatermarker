@@ -16,10 +16,16 @@ def watermark(url):
     st = get_upload_storage()
     filename = filename.replace(settings.UPLOAD_MEDIA_URL, "")
     filename = filename.replace(settings.S3_BUCKET_URL, "")
+    try:
+        filename = filename.split("?")[0]
+        params = filename.split("?")[1]
+    except:
+        pass
     if st.get_storage(filename) == st.remote:
         storage = S3BotoStorage()
+        print "WB for %s " % filename
+        print mark_safe(storage.url(filename))
         return mark_safe(storage.url(filename))
     return mark_safe(settings.UPLOAD_MEDIA_URL + filename)
-
 
 
