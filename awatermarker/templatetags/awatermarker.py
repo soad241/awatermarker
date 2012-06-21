@@ -1,6 +1,7 @@
 from django import template
 from django.conf import settings
 register = template.Library()
+from storages.backends.s3boto import S3BotoStorage
 
 @register.simple_tag
 def watermark(url):
@@ -8,5 +9,10 @@ def watermark(url):
         return url
     image_url = url.split("?")[0]
     params = url.split("?")[1]
-    return "{0}.{1}?{2}".format(image_url,
-                                settings.DEFAULT_WATERMARK_SLUG, params)
+    filename = "{0}.{1}".format(image_url, settings.DEFAULT_WATERMARK_SLUG)
+    filename = filename.replace(settings.S3_BUCKET_URL, "")
+    storage = S3BotoStorage()
+    return storage.url(filename)
+
+
+
