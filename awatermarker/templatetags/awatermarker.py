@@ -11,11 +11,12 @@ def watermark(url):
     params = url.split("?")[1]
     filename = "{0}.{1}".format(image_url, settings.DEFAULT_WATERMARK_SLUG)
     st = get_upload_storage()
+    filename = filename.replace(settings.UPLOAD_MEDIA_URL, "")
+    filename = filename.replace(settings.S3_BUCKET_URL, "")
     if st.get_storage(filename) == st.remote:
-        filename = filename.replace(settings.S3_BUCKET_URL, "")
         storage = S3BotoStorage()
         return storage.url(filename)
-    return filename
+    return settings.UPLOAD_MEDIA_URL + filename
 
 
 
